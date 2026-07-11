@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}New invoice{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 500px;">
+  <h2>New invoice</h2>
+  <form method="post" action="{{ url_for('views.new_invoice') }}" enctype="multipart/form-data">
+    <label for="amount">Amount (EUR)</label>
+    <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="1234.56" required style="width: 100%;">
+    <label for="counterparty_name">Counterparty name</label>
+    <input id="counterparty_name" name="counterparty_name" type="text" required style="width: 100%;">
+    <label for="counterparty_email">Counterparty contact email</label>
+    <input id="counterparty_email" name="counterparty_email" type="email" required style="width: 100%;">
+    <label for="due_date">Due date</label>
+    <input id="due_date" name="due_date" type="date" required style="width: 100%;">
+    <label for="pdf">PDF attachment</label>
+    <input id="pdf" name="pdf" type="file" accept="application/pdf" required style="width: 100%;">
+    <p><button type="submit">Submit invoice</button></p>
+  </form>
+</div>
+{% endblock %}

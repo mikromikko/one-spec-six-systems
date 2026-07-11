@@ -1,0 +1,49 @@
+agent: claude
+run: 0
+start_utc: 2026-07-11T14:08:30Z
+spec_sha256: 8248b275bf599924db0acc059631c005875c8153cf43b707a4d5b2753149b7af
+machine: Darwin 25.5.0 arm64
+version: 2.1.170 (Claude Code)
+model_flag: --model opus
+---- transcript ----
+Complete. All 31 tests pass and I verified the full flow end-to-end against a live server (submit → two-approver approval → audit trail → contact-email read/erase → email notifications).
+
+## What was built
+
+An invoice approval service for Nordvik Components Oy — Python + FastAPI + SQLite, dependency-managed with `uv`, tested with pytest. Built test-first (domain tests → services, API tests → routes).
+
+**Structure:**
+- `app/services.py` — all business rules, framework-independent (state machine, approval policy, audit, GDPR erasure)
+- `app/main.py` — FastAPI routes + bearer-token auth
+- `app/models.py`, `schemas.py`, `security.py` (PBKDF2, stdlib-only), `email_stub.py`, `db.py`, `seed.py`
+- `tests/test_services.py` (19) + `tests/test_api.py` (12)
+- `README.md` with exact setup/run/test steps
+
+## Requirements coverage
+
+| # | Requirement | How |
+|---|---|---|
+| 1 | Email/password auth, 2 roles | `/auth/login` → bearer token; `Role` enum, one per user |
+| 2 | Invoice fields + PDF | `POST /invoices` multipart; PDF saved to `uploads/` |
+| 3 | State machine, approver-only decisions | `submitted→approved/rejected`, role-gated |
+| 4 | No self-approval | 403 when submitter == approver |
+| 5 | >10k → two distinct approvers | boundary tested (exactly 10,000 = one approval) |
+| 6 | Append-only audit | single write path, no update/delete API (asserted in tests) |
+| 7 | Personal data erase + read logging | dedicated audited endpoints for contact email |
+| 8 | Filterable pending queue | by `name`, `min/max_amount_eur` |
+| 9 | Email on state change | stub appends to `emails/outbox.log` |
+| 10 | Tests + README | `uv run pytest` → 31 passed |
+
+**Design choices worth flagging:**
+- Money stored as integer cents to avoid float errors.
+- Req 4 (no self-approval) is only meaningful if approvers can also submit, so I let any authenticated user submit invoices; roles gate *approval* authority. That's the one place I resolved spec ambiguity — noted in `services.py` and the README.
+- Default invoice view omits the contact email so every read of that personal-data field must go through the audited endpoint.
+
+**To run:** `uv sync --extra dev` → `uv run pytest` → `uv run python -m app.seed demo` → `uv run uvicorn app.main:app --port 8000` (docs at `/docs`).
+
+I haven't committed anything, per your git workflow rules — let me know if you'd like a commit.
+---- end transcript ----
+exit_code: 0
+end_utc: 2026-07-11T14:17:24Z
+duration_seconds: 534
+final_commit: 1f19d0a464d941c82b15c7c75ea2c2c3171d7bb6

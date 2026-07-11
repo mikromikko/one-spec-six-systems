@@ -1,0 +1,14 @@
+claude-run1 findings: 1
+  express-check-csurf-middleware-usage | src/app.js:69 | INFO
+claude-run2 findings: 1
+  express-check-csurf-middleware-usage | src/app.js:42 | INFO
+claude-run3 findings: 0
+copilot-run1 findings: 2
+  sqlalchemy-execute-raw-query | app/main.py:414 | ERROR
+  sqlalchemy-execute-raw-query | app/main.py:552 | ERROR
+copilot-run2 findings: 2
+  sqlalchemy-execute-raw-query | invoice_service.py:286 | ERROR
+  sqlalchemy-execute-raw-query | invoice_service.py:363 | ERROR
+copilot-run3 findings: 2
+  sqlalchemy-execute-raw-query | app.py:428 | ERROR
+  sqlalchemy-execute-raw-query | app.py:554 | ERROR

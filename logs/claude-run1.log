@@ -1,0 +1,48 @@
+agent: claude
+run: 1
+start_utc: 2026-07-11T14:44:49Z
+spec_sha256: 8248b275bf599924db0acc059631c005875c8153cf43b707a4d5b2753149b7af
+machine: Darwin 25.5.0 arm64
+version: 2.1.170 (Claude Code)
+model_flag: --model opus
+operator_config_neutralized: CLAUDE.md settings.json
+---- transcript ----
+The system is complete and verified. Here's what was built.
+
+## Invoice Approval Service — done
+
+A local JSON/REST web service in **Node.js + Express**, using Node's built-in **`node:sqlite`** (no native build, no external DB server) and **multer** for PDF uploads.
+
+**Run it (README has full detail):**
+```bash
+npm install
+npm run seed      # 4 demo users
+npm start         # http://localhost:3000
+npm test          # 19 automated tests, all passing
+```
+
+### How each requirement is met
+| # | Requirement | Implementation |
+|---|---|---|
+| 1 | Email/password auth, one role each | `POST /login` → bearer token; `role` column with a `CHECK` constraint |
+| 2 | Submitter creates invoice + PDF | `POST /invoices` (multipart), validates amount/name/email/date/PDF |
+| 3 | submitted → approved/rejected, approver-only | role-guarded approve/reject, terminal states enforced |
+| 4 | No self-approval | `403` when submitter == approver |
+| 5 | >€10,000 needs 2 distinct approvers | integer-cent threshold; unique `(invoice, approver)`; partial approval keeps `submitted` |
+| 6 | Append-only audit log | who/action/before/after/when, plus `BEFORE UPDATE`/`DELETE` triggers that abort — verified by a test |
+| 7 | Counterparty email = personal data | every read writes a `read_counterparty_email` audit row; `DELETE` erases it |
+| 8 | Filterable pending list | `GET /invoices/pending?counterparty=&minAmount=&maxAmount=`, excludes own & already-approved |
+| 9 | Email on state change | stub appends to `EMAIL_LOG`; fires only on real transitions |
+| 10 | Tests + README | `node --test` suite + this README |
+
+### Verification
+- **19/19 tests pass**, covering every requirement in isolated temp databases.
+- **End-to-end smoke test** against the live server confirmed: a €12,000 invoice stayed `submitted` after one approval, went `approved` after a second distinct approver, the audit log recorded `submit → approve_partial → approve → read_counterparty_email`, and exactly one notification email was written on the actual state change.
+
+Two engineering notes worth flagging: `better-sqlite3` fails to compile against your bleeding-edge Node 26, so I switched to the built-in `node:sqlite` (zero native deps) — this is why the service prints a one-line experimental-feature warning on startup, which is expected. I also upgraded multer from the deprecated 1.x to 2.x to clear the known vulnerabilities. Nothing is committed; the working tree is ready for you to review.
+operator_config_restored: yes
+---- end transcript ----
+exit_code: 0
+end_utc: 2026-07-11T14:51:57Z
+duration_seconds: 428
+final_commit: 8c5c8788a95b941b720c9b6d4e8927d05c1ea22c

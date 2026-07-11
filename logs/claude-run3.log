@@ -1,0 +1,50 @@
+agent: claude
+run: 3
+start_utc: 2026-07-11T14:59:16Z
+spec_sha256: 8248b275bf599924db0acc059631c005875c8153cf43b707a4d5b2753149b7af
+machine: Darwin 25.5.0 arm64
+version: 2.1.170 (Claude Code)
+model_flag: --model opus
+operator_config_neutralized: CLAUDE.md settings.json
+---- transcript ----
+The invoice approval service is complete, and all 14 tests pass. Both `npm start` and the end-to-end curl flow were verified working.
+
+## What was built
+
+A Node.js + Express service backed by SQLite (via the built-in `node:sqlite` — no native build), with a minimal web UI and a requirement-by-requirement test suite.
+
+**Files:**
+- `server.js` — entry point (init DB, seed demo users, listen)
+- `src/db.js` — schema, including **append-only audit triggers** that reject any UPDATE/DELETE
+- `src/auth.js` — scrypt password hashing + auth/role middleware
+- `src/audit.js`, `src/email.js` — audit helper and file-based email stub
+- `src/app.js` — all routes and business rules
+- `src/seed.js` — demo users
+- `public/index.html` — minimal web UI (login, submit, filter, approve/reject)
+- `test/invoices.test.js` — 14 tests, one per requirement
+- `README.md` — setup, run, and test steps
+
+## How each requirement is satisfied
+
+| # | Requirement | Implementation |
+|---|---|---|
+| 1 | Email/password, one role | Login endpoint, scrypt hashes, `role` column + `requireRole` |
+| 2 | Invoice with PDF | `POST /api/invoices`, multer PDF-only filter |
+| 3 | States, approver-only decisions | `submitted→approved\|rejected`, role-guarded |
+| 4 | No self-approval | 403 when `submitter_id === approver.id` |
+| 5 | Two approvers over €10k | `approvals` table with `UNIQUE(invoice_id, approver_id)`; threshold logic |
+| 6 | Append-only audit log | Every state change recorded; DB triggers block edit/delete |
+| 7 | Erasable, read-audited email | Erase endpoint + every read logged to audit |
+| 8 | Filterable pending list | `/pending` filterable by counterparty/min/max amount |
+| 9 | Email on state change | File-based stub (`emails/outbox.log` + per-message files) |
+| 10 | Tests + README | `npm test` (14 tests) + `README.md` |
+
+**To run:** `npm install` → `npm start` (serves on :3000, seeds demo users) → `npm test`. Demo accounts use password `password123`.
+
+One note: I upgraded `multer` from the initially-installed 1.x to 2.x because npm flagged 1.x as having unpatched vulnerabilities.
+operator_config_restored: yes
+---- end transcript ----
+exit_code: 0
+end_utc: 2026-07-11T15:05:07Z
+duration_seconds: 351
+final_commit: 019b74d540483c7e17200999ee094b77b194c390

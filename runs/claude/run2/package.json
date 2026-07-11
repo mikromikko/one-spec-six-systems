@@ -1,0 +1,19 @@
+{
+  "name": "invoice-approval-service",
+  "version": "1.0.0",
+  "description": "Internal invoice approval service for Nordvik Components Oy",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "seed": "node src/seed.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.2.0"
+  }
+}

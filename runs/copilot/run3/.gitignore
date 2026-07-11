@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+invoices.db
+notifications.log

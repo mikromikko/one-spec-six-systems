@@ -1,0 +1,51 @@
+agent: claude
+run: 0b
+start_utc: 2026-07-11T14:24:37Z
+spec_sha256: 8248b275bf599924db0acc059631c005875c8153cf43b707a4d5b2753149b7af
+machine: Darwin 25.5.0 arm64
+version: 2.1.170 (Claude Code)
+model_flag: --model opus
+operator_config_neutralized: CLAUDE.md settings.json
+---- transcript ----
+The system is complete and verified. All 22 tests pass, and I confirmed the full workflow runs end-to-end via HTTP.
+
+## What was built
+
+An **invoice approval service** for Nordvik Components Oy — Python/Flask + SQLite, with both a JSON REST API and a server-rendered HTML UI. It runs entirely locally with no external services.
+
+### How each requirement is satisfied
+
+| # | Requirement | Implementation |
+|---|---|---|
+| 1 | Email/password auth, two roles, one each | Hashed passwords (Werkzeug), session cookies, DB `CHECK` constraint on role |
+| 2 | Submitter creates invoice with all fields + PDF | Multipart upload, PDF validated by `%PDF` magic bytes |
+| 3 | State machine, only approvers act | `submitted → approved/rejected`, role checks in service layer |
+| 4 | No self-approval | `submitter_id != actor` guard (approvers can also submit, so this is live) |
+| 5 | Dual approval over €10,000 | `UNIQUE(invoice_id, approver_id)` ensures two *distinct* approvers; ≤€10k needs one |
+| 6 | Append-only audit log | who/before/after/when recorded; SQLite triggers reject any UPDATE/DELETE |
+| 7 | Personal data (contact email) | Only served via a dedicated endpoint that audits **every read**; erasable on request (also audited); never leaked in normal invoice payloads |
+| 8 | Filterable pending list | By counterparty name + amount range; excludes own & already-approved invoices |
+| 9 | Notification on state change | Stub appends to `data/emails.log` |
+| 10 | Tests + README | 22 pytest tests + full README |
+
+### Design notes worth flagging
+- **Requirement 4 interpretation:** since the rule only makes sense if approvers can submit, I let both roles create invoices, while keeping approve/reject approver-only. This makes the self-approval prohibition an actively enforced rule rather than dead code.
+- **Threshold:** "over 10,000" is treated as strictly `> €10,000` — exactly €10,000.00 needs one approval (covered by a test).
+- Amounts are stored as integer cents and parsed with `Decimal` to avoid float rounding.
+
+### To run it
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+export FLASK_APP=wsgi && flask seed-demo && flask run
+# tests:
+pytest
+```
+
+Everything is in the current directory; the README has the exact steps, an API reference, and curl examples.
+operator_config_restored: yes
+---- end transcript ----
+exit_code: 0
+end_utc: 2026-07-11T14:34:41Z
+duration_seconds: 604
+final_commit: d26108e765ba747e893fc64841ad9b24740cbee3

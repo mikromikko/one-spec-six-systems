@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nordvik Invoice Approval</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f7; color: #1a1a1a; }
+    header { background: #123a5e; color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 18px; margin: 0; }
+    main { max-width: 900px; margin: 20px auto; padding: 0 16px; }
+    .card { background: #fff; border: 1px solid #e1e4e8; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    label { display: block; font-size: 13px; margin: 8px 0 3px; color: #444; }
+    input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+    button { background: #123a5e; color: #fff; border: none; padding: 8px 14px; border-radius: 5px; cursor: pointer; font-size: 14px; }
+    button.secondary { background: #6b7280; }
+    button.danger { background: #b3261e; }
+    button:hover { opacity: .92; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #eee; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .row > div { flex: 1; min-width: 140px; }
+    .muted { color: #6b7280; font-size: 12px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+    .submitted { background: #fff4d6; }
+    .approved { background: #d6f5df; }
+    .rejected { background: #ffd9d6; }
+    .hidden { display: none; }
+    pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nordvik Components — Invoice Approval</h1>
+    <div id="who"></div>
+  </header>
+  <main>
+    <section id="login" class="card">
+      <h2>Sign in</h2>
+      <div class="row">
+        <div><label>Email</label><input id="email" value="submitter@nordvik.example" /></div>
+        <div><label>Password</label><input id="password" type="password" value="submitter-pass" /></div>
+      </div>
+      <p class="muted">Seeded users: submitter@nordvik.example / submitter-pass · approver1@nordvik.example / approver-pass · approver2@nordvik.example / approver-pass</p>
+      <button onclick="login()">Sign in</button>
+      <p id="loginErr" class="muted"></p>
+    </section>
+
+    <section id="submitterView" class="card hidden">
+      <h2>Submit an invoice</h2>
+      <div class="row">
+        <div><label>Amount (EUR)</label><input id="amount" type="number" step="0.01" value="5000" /></div>
+        <div><label>Counterparty name</label><input id="cpName" value="Acme Steel Oy" /></div>
+      </div>
+      <div class="row">
+        <div><label>Counterparty contact email</label><input id="cpEmail" value="billing@acme.example" /></div>
+        <div><label>Due date</label><input id="dueDate" type="date" value="2026-09-01" /></div>
+      </div>
+      <label>PDF attachment</label><input id="pdf" type="file" accept="application/pdf" />
+      <p><button onclick="submitInvoice()">Submit invoice</button></p>
+      <p id="submitMsg" class="muted"></p>
+    </section>
+
+    <section id="approverFilters" class="card hidden">
+      <h2>Pending approvals — filters</h2>
+      <div class="row">
+        <div><label>Counterparty name contains</label><input id="fName" /></div>
+        <div><label>Min amount</label><input id="fMin" type="number" step="0.01" /></div>
+        <div><label>Max amount</label><input id="fMax" type="number" step="0.01" /></div>
+        <div style="display:flex;align-items:flex-end"><button onclick="loadInvoices()">Apply filters</button></div>
+      </div>
+    </section>
+
+    <section id="listView" class="card hidden">
+      <h2 id="listTitle">Invoices</h2>
+      <table><thead><tr>
+        <th>#</th><th>Amount</th><th>Counterparty</th><th>Due</th><th>State</th><th>Approvals</th><th>Actions</th>
+      </tr></thead><tbody id="invRows"></tbody></table>
+    </section>
+
+    <section id="detail" class="card hidden">
+      <h2>Invoice detail</h2>
+      <div id="detailBody"></div>
+      <button class="secondary" onclick="document.getElementById('detail').classList.add('hidden')">Close</button>
+    </section>
+  </main>
+
+  <script>
+    let token = null, me = null;
+    const $ = (id) => document.getElementById(id);
+
+    async function api(path, opts = {}) {
+      opts.headers = Object.assign({}, opts.headers, token ? { Authorization: 'Bearer ' + token } : {});
+      const res = await fetch(path, opts);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || res.statusText);
+      return data;
+    }
+
+    async function login() {
+      $('loginErr').textContent = '';
+      try {
+        const data = await api('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: $('email').value, password: $('password').value }),
+        });
+        token = data.token; me = data.user;
+        $('who').textContent = `${me.email} (${me.role})`;
+        $('login').classList.add('hidden');
+        $('listView').classList.remove('hidden');
+        if (me.role === 'submitter') $('submitterView').classList.remove('hidden');
+        if (me.role === 'approver') $('approverFilters').classList.remove('hidden');
+        $('listTitle').textContent = me.role === 'approver' ? 'Pending my approval' : 'My invoices';
+        loadInvoices();
+      } catch (e) { $('loginErr').textContent = e.message; }
+    }
+
+    async function submitInvoice() {
+      $('submitMsg').textContent = 'Submitting…';
+      try {
+        const fd = new FormData();
+        fd.append('amountEuros', $('amount').value);
+        fd.append('counterpartyName', $('cpName').value);
+        fd.append('counterpartyEmail', $('cpEmail').value);
+        fd.append('dueDate', $('dueDate').value);
+        if ($('pdf').files[0]) fd.append('pdf', $('pdf').files[0]);
+        const data = await api('/api/invoices', { method: 'POST', body: fd });
+        $('submitMsg').textContent = `Created invoice #${data.invoice.id}.`;
+        loadInvoices();
+      } catch (e) { $('submitMsg').textContent = 'Error: ' + e.message; }
+    }
+
+    async function loadInvoices() {
+      const params = new URLSearchParams();
+      if (me.role === 'approver') {
+        if ($('fName').value) params.set('counterpartyName', $('fName').value);
+        if ($('fMin').value) params.set('minAmount', $('fMin').value);
+        if ($('fMax').value) params.set('maxAmount', $('fMax').value);
+      }
+      const data = await api('/api/invoices?' + params.toString());
+      const rows = data.invoices.map((inv) => {
+        const actions = me.role === 'approver'
+          ? `<button onclick="decide(${inv.id},'approve')">Approve</button>
+             <button class="danger" onclick="decide(${inv.id},'reject')">Reject</button>`
+          : '';
+        return `<tr>
+          <td><a href="#" onclick="showDetail(${inv.id});return false">${inv.id}</a></td>
+          <td>${inv.amountEuros.toFixed(2)} €</td>
+          <td>${escapeHtml(inv.counterpartyName)}</td>
+          <td>${inv.dueDate}</td>
+          <td><span class="badge ${inv.state}">${inv.state}</span></td>
+          <td>${inv.approvals.length}/${inv.requiredApprovals}</td>
+          <td>${actions}</td>
+        </tr>`;
+      }).join('');
+      $('invRows').innerHTML = rows || '<tr><td colspan="7" class="muted">No invoices.</td></tr>';
+    }
+
+    async function decide(id, action) {
+      try { await api(`/api/invoices/${id}/${action}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }); loadInvoices(); }
+      catch (e) { alert(e.message); }
+    }
+
+    async function showDetail(id) {
+      const { invoice } = await api(`/api/invoices/${id}`);
+      const { entries } = await api(`/api/invoices/${id}/audit`);
+      $('detail').classList.remove('hidden');
+      $('detailBody').innerHTML = `
+        <p><b>Invoice #${invoice.id}</b> — ${invoice.amountEuros.toFixed(2)} € to ${escapeHtml(invoice.counterpartyName)}</p>
+        <p>State: <span class="badge ${invoice.state}">${invoice.state}</span> · Requires ${invoice.requiredApprovals} approval(s) · Has ${invoice.approvals.length}</p>
+        <p>Contact email: ${invoice.counterpartyEmailErased ? '<i>erased</i>' : '<button class="secondary" onclick="revealEmail(' + invoice.id + ')">Reveal (audited)</button> <button class="danger" onclick="eraseEmail(' + invoice.id + ')">Erase</button>'} <span id="emailReveal"></span></p>
+        <p><a href="/api/invoices/${invoice.id}/pdf" target="_blank">Download PDF</a></p>
+        <h3>Audit log</h3>
+        <pre>${entries.map((e) => `${e.created_at}  actor#${e.actor_id ?? '-'}  ${e.action}  ${e.state_before ?? ''}→${e.state_after ?? ''}  ${e.details ?? ''}`).join('\n')}</pre>`;
+    }
+
+    async function revealEmail(id) {
+      try { const d = await api(`/api/invoices/${id}/contact-email`); $('emailReveal').textContent = d.counterpartyEmail; }
+      catch (e) { $('emailReveal').textContent = e.message; }
+    }
+    async function eraseEmail(id) {
+      if (!confirm('Erase the counterparty contact email? This cannot be undone.')) return;
+      await api(`/api/invoices/${id}/contact-email`, { method: 'DELETE' }); showDetail(id);
+    }
+
+    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  </script>
+</body>
+</html>

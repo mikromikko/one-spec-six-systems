@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Invoices{% endblock %}
+{% block content %}
+<h2>Invoices</h2>
+<a class="button" href="{{ url_for('views.new_invoice') }}"><button>New invoice</button></a>
+<table style="margin-top: 1rem;">
+  <thead>
+    <tr><th>#</th><th>Counterparty</th><th>Amount (EUR)</th><th>Due</th><th>State</th><th>Approvals</th></tr>
+  </thead>
+  <tbody>
+    {% for inv in invoices %}
+    <tr>
+      <td><a href="{{ url_for('views.invoice_detail', invoice_id=inv['id']) }}">{{ inv['id'] }}</a></td>
+      <td>{{ inv['counterparty_name'] }}</td>
+      <td>{{ inv['amount_eur'] }}</td>
+      <td>{{ inv['due_date'] }}</td>
+      <td><span class="state {{ inv['state'] }}">{{ inv['state'] }}</span></td>
+      <td>{{ inv['approvals_count'] }} / {{ inv['approvals_required'] }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">No invoices yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

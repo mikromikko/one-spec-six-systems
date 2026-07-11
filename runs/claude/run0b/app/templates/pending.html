@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Pending approval{% endblock %}
+{% block content %}
+<h2>Pending your approval</h2>
+<form method="get" action="{{ url_for('views.pending') }}" class="card">
+  <label for="counterparty">Counterparty name contains</label>
+  <input id="counterparty" name="counterparty" value="{{ counterparty }}">
+  <label for="min_amount">Min amount (EUR)</label>
+  <input id="min_amount" name="min_amount" value="{{ min_amount }}">
+  <label for="max_amount">Max amount (EUR)</label>
+  <input id="max_amount" name="max_amount" value="{{ max_amount }}">
+  <p><button type="submit">Filter</button>
+     <a class="button" href="{{ url_for('views.pending') }}"><button class="secondary" type="button">Clear</button></a></p>
+</form>
+<table>
+  <thead>
+    <tr><th>#</th><th>Counterparty</th><th>Amount (EUR)</th><th>Due</th><th>Approvals</th></tr>
+  </thead>
+  <tbody>
+    {% for inv in invoices %}
+    <tr>
+      <td><a href="{{ url_for('views.invoice_detail', invoice_id=inv['id']) }}">{{ inv['id'] }}</a></td>
+      <td>{{ inv['counterparty_name'] }}</td>
+      <td>{{ inv['amount_eur'] }}</td>
+      <td>{{ inv['due_date'] }}</td>
+      <td>{{ inv['approvals_count'] }} / {{ inv['approvals_required'] }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5">Nothing pending your approval.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,6 @@
+claude-run1: 0 findings
+claude-run2: 0 findings
+claude-run3: 0 findings
+copilot-run1: 0 findings
+copilot-run2: 0 findings
+copilot-run3: 0 findings

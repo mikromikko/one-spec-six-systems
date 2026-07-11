@@ -1,0 +1,49 @@
+agent: claude
+run: 2
+start_utc: 2026-07-11T14:51:57Z
+spec_sha256: 8248b275bf599924db0acc059631c005875c8153cf43b707a4d5b2753149b7af
+machine: Darwin 25.5.0 arm64
+version: 2.1.170 (Claude Code)
+model_flag: --model opus
+operator_config_neutralized: CLAUDE.md settings.json
+---- transcript ----
+The system is complete and verified. All 16 tests pass, the server runs end-to-end, and runtime artifacts are cleaned up.
+
+## What was built
+
+An internal **invoice approval service** for Nordvik Components Oy — a Node.js/Express + SQLite web service with a REST API and a small demo UI.
+
+**Stack:** Node.js (built-in `node:sqlite`, no native build step), Express, Multer for PDF uploads. Password hashing and signed auth tokens use only `node:crypto`. Just two third-party deps (`express`, `multer`).
+
+**How to run** (from the README):
+```bash
+npm install
+npm run seed     # creates 1 submitter + 2 approver demo users
+npm start        # http://localhost:3000
+npm test         # 16 tests, isolated in-memory DBs
+```
+
+**Every requirement is covered and tested:**
+
+| # | Requirement | Implementation |
+|---|-------------|----------------|
+| 1 | Email/password login, one role each | scrypt hashing; `CHECK` constraint on role |
+| 2 | Submitter creates invoice + PDF | `POST /api/invoices`, PDF mimetype validated |
+| 3 | submitted → approved/rejected, approver-only | state machine, terminal states locked |
+| 4 | No self-approval | `403` when actor == submitter |
+| 5 | >€10k needs two distinct approvers | `UNIQUE(invoice_id, approver_id)` + threshold logic |
+| 6 | Append-only audit log | writes on every change + `BEFORE UPDATE/DELETE` triggers reject mutation at the DB layer |
+| 7 | Contact email is personal data | never in normal responses; dedicated read endpoint audits **every** read; erasure endpoint |
+| 8 | Pending list, filterable | approver list filtered by name substring + amount range, excludes own/already-approved |
+| 9 | Email on every state change | stub appends JSON to `data/outbox.log` |
+| 10 | Tests + README | `node --test` suite + this README |
+
+**Design choices worth noting:** the append-only guarantee is enforced with SQLite triggers (defense in depth, not just "no endpoint exists"); the counterparty email is structurally excluded from `serializeInvoice` so it can only leak through the audited path; and the two-approver rule is enforced by a DB uniqueness constraint rather than application counting alone.
+
+One thing to flag: `POST /api/auth/register` is open (unauthenticated) so seeding and tests can provision users. For a real internal deployment you'd gate it behind an admin role — I noted this inline in `src/app.js`.
+operator_config_restored: yes
+---- end transcript ----
+exit_code: 0
+end_utc: 2026-07-11T14:59:16Z
+duration_seconds: 439
+final_commit: 7d58ce46298c81b0beda1c40a610fee26a8a3b42

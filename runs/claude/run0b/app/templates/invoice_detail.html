@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Invoice #{{ invoice['id'] }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Invoice #{{ invoice['id'] }}
+    <span class="state {{ invoice['state'] }}">{{ invoice['state'] }}</span>
+  </h2>
+  <p><strong>Counterparty:</strong> {{ invoice['counterparty_name'] }}</p>
+  <p><strong>Amount:</strong> EUR {{ invoice['amount_eur'] }}</p>
+  <p><strong>Due date:</strong> {{ invoice['due_date'] }}</p>
+  <p><strong>Approvals:</strong> {{ invoice['approvals_count'] }} / {{ invoice['approvals_required'] }}</p>
+  <p><a href="{{ url_for('api.get_invoice_pdf', invoice_id=invoice['id']) }}">Download PDF</a></p>
+
+  <p><strong>Counterparty contact email:</strong>
+    {% if invoice['counterparty_email_erased'] %}
+      <em>erased</em>
+    {% elif revealed %}
+      {{ email if email else '(none)' }}
+    {% else %}
+      <em>hidden</em> —
+      <a href="{{ url_for('views.invoice_detail', invoice_id=invoice['id'], show_email=1) }}">reveal (audited)</a>
+    {% endif %}
+  </p>
+  {% if not invoice['counterparty_email_erased'] %}
+  <form method="post" action="{{ url_for('views.erase_email', invoice_id=invoice['id']) }}" style="display:inline;">
+    <button class="danger" type="submit">Erase contact email</button>
+  </form>
+  {% endif %}
+</div>
+
+{% if can_act %}
+<div class="card">
+  <h3>Approve or reject</h3>
+  <form method="post" action="{{ url_for('views.approve', invoice_id=invoice['id']) }}" style="display:inline;">
+    <button type="submit">Approve</button>
+  </form>
+  <form method="post" action="{{ url_for('views.reject', invoice_id=invoice['id']) }}" style="display:inline;">
+    <input name="reason" type="text" placeholder="reason (optional)">
+    <button class="danger" type="submit">Reject</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="card">
+  <h3>Audit log</h3>
+  <table>
+    <thead><tr><th>When</th><th>Actor</th><th>Action</th><th>Before</th><th>After</th><th>Detail</th></tr></thead>
+    <tbody>
+      {% for row in audit %}
+      <tr>
+        <td>{{ row['created_at'] }}</td>
+        <td>{{ row['actor_email'] or row['actor_id'] }}</td>
+        <td>{{ row['action'] }}</td>
+        <td>{{ row['state_before'] or '' }}</td>
+        <td>{{ row['state_after'] or '' }}</td>
+        <td>{{ row['detail'] or '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
