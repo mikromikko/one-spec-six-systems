@@ -38,3 +38,5 @@ Both products update continuously; your versions will not be our versions, and y
 - `runs/claude/run2` contains a hardcoded fallback JWT secret (`dev-insecure-secret`). It is left in place deliberately: it is the experiment's one genuine security finding. Do not deploy any of these systems.
 - Logs are published as recorded, minus Copilot session-resume identifiers.
 - Generated code in `runs/` is agent output, provided for verification only, no license granted or implied. Everything else in this repo: CC BY 4.0.
+
+Written as a representative of https://tai.ga
