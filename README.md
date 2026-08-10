@@ -17,6 +17,7 @@ On 11 July 2026 we gave two coding agents the same frozen one-page specification
 | `runs/*/run0*` | Smoke runs (dress rehearsals), excluded from analysis. `claude/run0` is the contaminated run described in the essay: the agent read the operator's personal config ("per your git workflow rules" appears in `logs/claude-run0.log`) |
 | `logs/` | Per-run logs: versions, model flags, spec hash, timestamps, durations, exit codes |
 | `analysis/` | The comparison matrix, acceptance results per system, and scanner outputs (Semgrep 1.169.0 default rules, gitleaks 8.30.1) |
+| `security-review-2026-07-18.md` | Source-assisted security review of all six runs, dated 18 July 2026. None was safe to deploy as shipped; four let an unauthenticated caller create an approver, five had object-level authorization failures. Basis for [Part 2](https://tai.ga/en/resources/one-spec-six-systems/) |
 
 ## Rerunning it
 
@@ -35,7 +36,7 @@ Both products update continuously; your versions will not be our versions, and y
 ## Notes
 
 - The runs used each product's non-interactive mode with default settings and a pinned model flag. Neither product exposes sampling controls in this mode.
-- `runs/claude/run2` contains a hardcoded fallback JWT secret (`dev-insecure-secret`). It is left in place deliberately: it is the experiment's one genuine security finding. Do not deploy any of these systems.
+- `runs/claude/run2` contains a hardcoded fallback JWT secret (`dev-insecure-secret`). It is left in place deliberately. The first essay called this "the one real finding"; the later [security review](./security-review-2026-07-18.md) shows that was wrong — none of the six systems was safe to deploy as shipped. Do not deploy any of these systems.
 - Logs are published as recorded, minus Copilot session-resume identifiers.
 - Generated code in `runs/` is agent output, provided for verification only, no license granted or implied. Everything else in this repo: CC BY 4.0.
 
