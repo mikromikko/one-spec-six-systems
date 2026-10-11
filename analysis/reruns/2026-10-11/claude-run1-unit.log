@@ -1,0 +1,31 @@
+
+> invoice-approval-service@1.0.0 test
+> node --test
+
+✔ state changes are recorded in the audit log (626.120286ms)
+✔ audit log is append-only at the storage layer (no update/delete) (381.001474ms)
+✔ reading the counterparty email is recorded in the audit log (347.656246ms)
+✔ counterparty email can be erased and is then unreadable (331.622835ms)
+✔ test/helpers.js (34.426804ms)
+✔ login works and unknown credentials are rejected (507.245177ms)
+✔ unauthenticated requests are rejected (177.889835ms)
+✔ submitter can create an invoice with a PDF attachment (305.177765ms)
+✔ invoice creation requires a PDF attachment (246.464976ms)
+✔ non-PDF attachments are rejected (292.718461ms)
+✔ invalid invoice fields are rejected (266.573928ms)
+✔ submitters cannot approve invoices (287.910133ms)
+✔ invoice at or under 10000 EUR is approved by a single approver (317.042545ms)
+✔ invoice over 10000 EUR needs two distinct approvers (335.876513ms)
+✔ approver cannot approve or reject an invoice they submitted (383.686822ms)
+✔ an approver can reject an invoice, notifying the submitter (332.818821ms)
+✔ a decided invoice cannot be approved or rejected again (381.631036ms)
+✔ pending list is filterable by counterparty name and amount (440.618108ms)
+✔ pending list excludes own invoices and already-approved ones (379.643919ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6771.885812

@@ -1,0 +1,13 @@
+test_approver_cannot_decide_invoice_they_submitted (test_invoice_service.InvoiceServiceTest.test_approver_cannot_decide_invoice_they_submitted) ... ok
+test_audit_log_is_append_only (test_invoice_service.InvoiceServiceTest.test_audit_log_is_append_only) ... ok
+test_authentication_and_role_enforcement (test_invoice_service.InvoiceServiceTest.test_authentication_and_role_enforcement) ... ok
+test_contact_email_reads_are_audited_and_contact_can_be_erased (test_invoice_service.InvoiceServiceTest.test_contact_email_reads_are_audited_and_contact_can_be_erased) ... ok
+test_invoice_at_or_under_10000_is_approved_by_one_approver (test_invoice_service.InvoiceServiceTest.test_invoice_at_or_under_10000_is_approved_by_one_approver) ... ok
+test_invoice_over_10000_requires_two_distinct_approvers (test_invoice_service.InvoiceServiceTest.test_invoice_over_10000_requires_two_distinct_approvers) ... ok
+test_pending_list_filters_by_counterparty_name_and_amount (test_invoice_service.InvoiceServiceTest.test_pending_list_filters_by_counterparty_name_and_amount) ... ok
+test_rejection_records_state_change_and_sends_notification (test_invoice_service.InvoiceServiceTest.test_rejection_records_state_change_and_sends_notification) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.306s
+
+OK

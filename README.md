@@ -2,7 +2,7 @@
 
 Artifact bundle for the experiment described in the essay: https://tai.ga/en/resources/one-spec-six-systems
 
-On 11 July 2026 we gave two coding agents the same frozen one-page specification, three times each, one message per run, in an empty directory, with no follow-ups. Every resulting system worked. No two were alike in architecture, authentication, or dependencies. This repository contains everything needed to check that claim or rerun the experiment.
+On 11 July 2026 we gave two coding agents the same frozen one-page specification, three times each, one message per run, in an empty directory, with no follow-ups. Every resulting system worked. No two were alike in architecture, authentication, or dependencies. This repository contains the recorded outputs and evidence for that claim. The restored acceptance adapters below can recheck the existing outputs; generating new draws is a separate experiment.
 
 ## Contents
 
@@ -16,10 +16,16 @@ On 11 July 2026 we gave two coding agents the same frozen one-page specification
 | `runs/copilot/run1..3` | GitHub Copilot CLI 1.0.70 (GPT-5.5) output, same |
 | `runs/*/run0*` | Smoke runs (dress rehearsals), excluded from analysis. `claude/run0` is the contaminated run described in the essay: the agent read the operator's personal config ("per your git workflow rules" appears in `logs/claude-run0.log`) |
 | `logs/` | Per-run logs: versions, model flags, spec hash, timestamps, durations, exit codes |
+| `analysis/acceptance/` | Recovered synthetic HTTP adapters, provenance hashes, isolated rerun instructions and offline guard tests |
+| `analysis/reruns/` | Fresh receipts, runtime dependencies and deviations, kept separate from July results |
 | `analysis/` | The comparison matrix, acceptance results per system, and scanner outputs (Semgrep 1.169.0 default rules, gitleaks 8.30.1) |
 | `security-review-2026-07-18.md` | Source-assisted security review of all six runs, dated 18 July 2026. None was safe to deploy as shipped; four let an unauthenticated caller create an approver, five had object-level authorization failures. Basis for [Part 2](https://tai.ga/en/resources/one-spec-six-systems/) |
 
-## Rerunning it
+## Rechecking the existing outputs
+
+Use the [bounded container acceptance rerun](analysis/acceptance/README.md). It makes no model calls, preserves the six pinned outputs and July receipts, and records actual runtime changes and outcomes. The later security findings remain in scope regardless of acceptance scores. The [11 October rerun receipt](analysis/reruns/2026-10-11/README.md) records 72 passing unit tests and the raw acceptance scores, including the previously documented manual regrade for Copilot run2.
+
+## Generating new draws
 
 You need the two CLIs installed and authenticated. Copy `spec.md` and `run.sh` into a folder named `claude` or `copilot` (the runner infers the agent from the folder name), then:
 

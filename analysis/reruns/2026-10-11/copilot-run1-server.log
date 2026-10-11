@@ -1,0 +1,45 @@
+INFO:     Started server process [384]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:43600 - "GET / HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:43608 - "POST /users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:43622 - "POST /users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41378 - "POST /users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41392 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41400 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41410 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41426 - "POST /invoices HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41436 - "POST /invoices/1/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:41450 - "POST /invoices HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41458 - "GET /invoices/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41464 - "GET /invoices/2/pdf HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:41480 - "POST /invoices/2/reject HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41494 - "GET /invoices/2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41502 - "POST /invoices HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41510 - "POST /invoices/3/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41526 - "GET /invoices/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41536 - "POST /invoices HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:41542 - "POST /invoices HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41546 - "POST /invoices/4/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41560 - "GET /invoices/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41566 - "POST /invoices/4/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41574 - "GET /invoices/4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41578 - "POST /invoices HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41580 - "POST /invoices/5/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41592 - "GET /invoices/5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41602 - "GET /audit-logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41614 - "PUT /audit-logs/1 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:41624 - "DELETE /audit-logs/1 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:41634 - "GET /invoices/3/counterparty-contact-email HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41648 - "GET /audit-logs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41654 - "POST /invoices/3/erase-counterparty-contact-email HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41656 - "GET /invoices/3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41672 - "GET /invoices/3/counterparty-contact-email HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41684 - "POST /invoices HTTP/1.1" 201 Created
+INFO:     127.0.0.1:41690 - "GET /invoices/pending?counterparty_name=Filter HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41692 - "GET /invoices/pending?min_amount_euros=999999 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [384]

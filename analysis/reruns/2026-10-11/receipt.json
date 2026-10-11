@@ -1,0 +1,188 @@
+{
+  "executed_at_utc": "2026-10-11T00:55:12.594120+00:00",
+  "snapshot": "b3394ba8286680a75b6031181430d93edb061d98",
+  "published_input_files_verified": 67,
+  "adapter_bundle_sha256": {
+    "bind-loopback.cjs": "8f9280a2cfd400c3154e311bf51922654254e94b172d4a18c3d410aa1d3944d0",
+    "check-claude-run1.py": "47161d3796a6743f1270ebaeaf7b64609afe044657275bf5c0c53d21b1b99778",
+    "check-claude-run2.py": "def3ceaf5c0b5bca1701e082c81ccbac33602b3f3a01cd1646361612b6ebd23c",
+    "check-claude-run3.py": "c9b79f7df15179433e177a936e98bdb68e1b12b68e8d0c627b29d1506aa47806",
+    "check-copilot-run1.py": "11e41c7f3e479c50e7b2cbc473338d3e7190d0c1057f9d838b09c632234e3475",
+    "check-copilot-run2.py": "761ea1edd6baba32bfa9905ca49924c614727d10a2657864835e7def14d34882",
+    "check-copilot-run3.py": "8ec433090f58241e2babba5f994e459c723c13222ea48e8782b1b47e3268b247",
+    "lib.py": "aa543b24c65a81cb8ececdd7939b1359bc91b5ca5712f706845d84868360ca37",
+    "python-rerun.lock": "a755407a55020b4f4b5f63d42e9de271449fe6e09b8ff4a47dae838b4bc9a701",
+    "rerun.py": "38019518e44c37740349d745bfe62af4335088befbab7d134e7544f7b4741e32",
+    "test-invoice.pdf": "dcefb405eb93fb84aa5745e3fbed04a1af927aa3b997d27f2d86db8dbe86adaf",
+    "test_helpers.py": "e6c2dc2d16dcf3112e00434006031230ea7ee0ee4fb0ad8fca715eaef9a50c7b"
+  },
+  "runtime": {
+    "architecture": "aarch64",
+    "kernel": "6.8.0-117-generic",
+    "node": "v24.18.1",
+    "python": "Python 3.12.3",
+    "npm": "11.16.0",
+    "curl": "curl 8.5.0 (aarch64-unknown-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.10"
+  },
+  "runs": [
+    {
+      "run_id": "claude-run1",
+      "commands": [
+        [
+          "npm",
+          "run",
+          "seed"
+        ],
+        [
+          "npm",
+          "start"
+        ],
+        [
+          "python3",
+          "/work/experiment/analysis/acceptance/check-claude-run1.py",
+          "--output-dir",
+          "/receipts"
+        ]
+      ],
+      "adapter_exit_code": 0,
+      "counts": {
+        "pass": 9,
+        "partial": 1,
+        "fail": 0
+      },
+      "service_ready": true
+    },
+    {
+      "run_id": "claude-run2",
+      "commands": [
+        [
+          "npm",
+          "run",
+          "seed"
+        ],
+        [
+          "npm",
+          "start"
+        ],
+        [
+          "python3",
+          "/work/experiment/analysis/acceptance/check-claude-run2.py",
+          "--output-dir",
+          "/receipts"
+        ]
+      ],
+      "adapter_exit_code": 0,
+      "counts": {
+        "pass": 10,
+        "partial": 0,
+        "fail": 0
+      },
+      "service_ready": true
+    },
+    {
+      "run_id": "claude-run3",
+      "commands": [
+        [
+          "npm",
+          "start"
+        ],
+        [
+          "python3",
+          "/work/experiment/analysis/acceptance/check-claude-run3.py",
+          "--output-dir",
+          "/receipts"
+        ]
+      ],
+      "adapter_exit_code": 0,
+      "counts": {
+        "pass": 9,
+        "partial": 1,
+        "fail": 0
+      },
+      "service_ready": true
+    },
+    {
+      "run_id": "copilot-run1",
+      "commands": [
+        [
+          ".venv/bin/python",
+          "-m",
+          "uvicorn",
+          "app.main:app",
+          "--host",
+          "127.0.0.1",
+          "--port",
+          "8000"
+        ],
+        [
+          "python3",
+          "/work/experiment/analysis/acceptance/check-copilot-run1.py",
+          "--output-dir",
+          "/receipts"
+        ]
+      ],
+      "adapter_exit_code": 0,
+      "counts": {
+        "pass": 9,
+        "partial": 1,
+        "fail": 0
+      },
+      "service_ready": true
+    },
+    {
+      "run_id": "copilot-run2",
+      "commands": [
+        [
+          "python3",
+          "app.py"
+        ],
+        [
+          "python3",
+          "/work/experiment/analysis/acceptance/check-copilot-run2.py",
+          "--output-dir",
+          "/receipts"
+        ]
+      ],
+      "adapter_exit_code": 0,
+      "counts": {
+        "pass": 9,
+        "partial": 1,
+        "fail": 0
+      },
+      "service_ready": true
+    },
+    {
+      "run_id": "copilot-run3",
+      "commands": [
+        [
+          "python3",
+          "app.py"
+        ],
+        [
+          "python3",
+          "/work/experiment/analysis/acceptance/check-copilot-run3.py",
+          "--output-dir",
+          "/receipts"
+        ]
+      ],
+      "adapter_exit_code": 0,
+      "counts": {
+        "pass": 10,
+        "partial": 0,
+        "fail": 0
+      },
+      "service_ready": true
+    }
+  ],
+  "deviations": [
+    "Fresh container data and synthetic fixtures; no generation or changes to the six outputs.",
+    "Node 24 / Python 3.12 instead of the original July host; exact versions and installed Python dependencies recorded.",
+    "npm ci --ignore-scripts uses each published lockfile; pip dependencies recorded separately.",
+    "Original Node service startup is preloaded with a fixed-port loopback wrapper; unit tests keep native ephemeral listeners in the loopback-only network. FastAPI runs without reload.",
+    "Adapters use repository-relative paths, 127.0.0.1 targets and fresh UTC-dated, exclusive-write receipts.",
+    "Check 10 records unit-test success; this rerun does not assert that original README instructions worked verbatim.",
+    "Acceptance scoring logic is preserved, including its known limited security coverage."
+  ],
+  "published_input_files_verified_after": 67,
+  "completed_at_utc": "2026-10-11T00:56:04.983809+00:00"
+}

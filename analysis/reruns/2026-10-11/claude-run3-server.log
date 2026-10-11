@@ -1,0 +1,7 @@
+
+> invoice-approval-service@1.0.0 start
+> node server.js
+
+Seeded 5 demo user(s).
+Invoice approval service listening on http://localhost:3000
+Demo accounts (password: password123): submitter1@nordvik.example, approver1@nordvik.example, ...

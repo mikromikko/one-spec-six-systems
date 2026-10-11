@@ -1,0 +1,49 @@
+
+> invoice-approval-service@1.0.0 test
+> node --test
+
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub@x.test: Invoice #1 approved
+✔ single approval is enough at or under 10,000 EUR (req 5) (947.231207ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub@x.test: Invoice #1 approved
+✔ over 10,000 EUR requires two distinct approvers (req 5) (580.993104ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> app1@x.test: Invoice #1 approved
+✔ an approver cannot approve or reject their own invoice (req 4) (640.86855ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub@x.test: Invoice #1 rejected
+✔ rejection moves invoice to rejected and only approvers can decide (reqs 3, 4) (609.44266ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub@x.test: Invoice #2 submitted
+[email] -> sub@x.test: Invoice #3 submitted
+✔ pending list is filterable by counterparty name and amount (req 8) (548.865393ms)
+[email] -> sub@x.test: Invoice #1 submitted
+✔ pending list excludes the approver's own already-recorded approvals (req 8) (515.868855ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub@x.test: Invoice #1 approved
+✔ every state change is recorded in an append-only audit log (req 6) (657.509273ms)
+[email] -> sub@x.test: Invoice #1 submitted
+✔ audit log is append-only: DB rejects updates and deletes (req 6) (682.559236ms)
+[email] -> sub@x.test: Invoice #1 submitted
+✔ contact email: every read is audited and erasure works (req 7) (2192.636672ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub@x.test: Invoice #1 approved
+✔ a notification email is written on every state change (req 9) (950.339629ms)
+✔ auth: sign in with email/password and enforce a single role (req 1) (361.066497ms)
+✔ auth: invalid role is rejected and duplicate email conflicts (137.88983ms)
+✔ auth: protected routes require a valid token (14.883536ms)
+[email] -> sub@x.test: Invoice #1 submitted
+✔ invoice creation requires submitter role and a valid PDF (req 2) (639.373799ms)
+✔ invoice creation validates fields (548.389092ms)
+[email] -> sub@x.test: Invoice #1 submitted
+[email] -> sub2@x.test: Invoice #2 submitted
+✔ submitters see only their own invoices; PDF is downloadable (3517.978417ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14505.736926

@@ -1,0 +1,11 @@
+  [PASS   ] 1 Sign-in + roles — 3 logins ok; submitter approve attempt -> 403
+  [PASS   ] 2 Invoice creation — created id=2; fields ok=True; pdf download=True (status 200)
+  [PASS   ] 3 Lifecycle — reject->True, approve->True
+  [PASS   ] 4 No self-approval — approver submit attempt -> 403 (roles exclusive; 403 guard on approve for submitter_id match)
+  [PASS   ] 5 Two-approver threshold — 12k after 1 approval still submitted=True; after 2nd approved=True; exactly 10k one-approval=True
+  [PASS   ] 6 Append-only audit log — 3 entries, actor+timestamp=True; PUT->404 DELETE->404
+  [PASS   ] 7 PII erasure + access logging — read audited=True; erased=True (post-erase GET -> 410); invoice survives=True
+  [PASS   ] 8 Pending list + filters — name filter ok=True (1 rows); minAmount=999999 -> 0 rows
+  [PASS   ] 9 Notification stub — outbox.log exists=True, addressed to submitter=True
+  [PASS   ] 10 README + tests — Unit tests (startup deviations are in the rerun receipt); npm test rc=0: ℹ skipped 0 | ℹ todo 0 | ℹ duration_ms 14505.736926
+saved /receipts/results-claude-run2.md — 10P/0p/0F
