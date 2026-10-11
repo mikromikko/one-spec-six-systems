@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: >-
+  Cite this research artifact bundle and record the commit you inspected.
+  Read the experiment together with its later security review and rerun receipts.
+type: dataset
+title: "One spec in. Six systems out."
+authors:
+  - family-names: Laakkonen
+    given-names: Mikko
+    affiliation: Taiga AI Oy
+url: "https://tai.ga/en/resources/one-spec-six-systems/"
+repository-code: "https://github.com/mikromikko/one-spec-six-systems"
+commit: 4accf9dba4b620951af014089c3e07343da45200
+abstract: >-
+  A Taiga-published experiment dated 11 July 2026 records six implementations
+  of one frozen invoice-service specification: three Claude Code runs and
+  three GitHub Copilot CLI runs. The source-assisted security review dated
+  18 July found none safe to deploy as shipped. The 11 October rerun rechecked
+  the existing outputs without new model calls and preserves raw acceptance
+  scores separately from the July manual regrade. This is not independent
+  replication, a customer outcome or a test of Taiga's software factory.
+  Documentation and analysis are CC BY 4.0; no license is granted or implied
+  for generated code in runs/.

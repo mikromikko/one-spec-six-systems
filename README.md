@@ -25,6 +25,10 @@ On 11 July 2026 we gave two coding agents the same frozen one-page specification
 
 Use the [bounded container acceptance rerun](analysis/acceptance/README.md). It makes no model calls, preserves the six pinned outputs and July receipts, and records actual runtime changes and outcomes. The later security findings remain in scope regardless of acceptance scores. The [11 October rerun receipt](analysis/reruns/2026-10-11/README.md) records 71 passing named test cases (72 runner items, including one helper module) and the raw acceptance scores, including the previously documented manual regrade for Copilot run2.
 
+## Citing this bundle
+
+Use [`CITATION.cff`](CITATION.cff) for the author and artifact metadata, and record the exact commit you inspected. Read the experiment with [Part 2](https://tai.ga/en/resources/one-spec-six-systems-part-2/) and the dated security review. The citation describes the research bundle, not an independently replicated result or a test of Taiga's factory. The license distinction in the notes below still applies.
+
 ## Generating new draws
 
 You need the two CLIs installed and authenticated. Copy `spec.md` and `run.sh` into a folder named `claude` or `copilot` (the runner infers the agent from the folder name), then:
