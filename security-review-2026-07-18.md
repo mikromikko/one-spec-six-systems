@@ -7,7 +7,7 @@
 **Out of scope:** smoke runs `run0`/`run0b`, the agent products themselves, production infrastructure that is not present in the repository, and attacks requiring direct write access to the SQLite files or host filesystem  
 **Review type:** source-assisted application-security review, dependency audit, test execution, and targeted verification. This is not a production penetration test.
 
-> Context for this review: the experiment is described in [One spec in. Six systems out.](https://tai.ga/en/resources/one-spec-six-systems/) (Part 1), and the findings below are the basis for the follow-up, [Six systems passed their tests. None was safe to deploy as shipped.](https://tai.ga/en/resources/one-spec-six-systems/) (Part 2). Published by [Taiga](https://tai.ga/).
+> Context for this review: the experiment is described in [One spec in. Six systems out.](https://tai.ga/en/resources/one-spec-six-systems/) (Part 1), and the findings below are the basis for the follow-up, [Six systems passed their tests. None was safe to deploy as shipped.](https://tai.ga/en/resources/one-spec-six-systems-part-2/) (Part 2). Published by [Taiga](https://tai.ga/).
 
 ## Executive conclusion
 
