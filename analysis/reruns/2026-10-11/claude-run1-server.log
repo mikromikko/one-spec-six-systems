@@ -1,0 +1,5 @@
+
+> invoice-approval-service@1.0.0 start
+> node src/server.js
+
+Invoice approval service listening on http://localhost:3000

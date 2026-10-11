@@ -1,0 +1,24 @@
+{
+  "NetworkMode": "none",
+  "ReadonlyRootfs": true,
+  "CapDrop": [
+    "ALL"
+  ],
+  "SecurityOpt": [
+    "no-new-privileges"
+  ],
+  "NanoCpus": 2000000000,
+  "Memory": 1073741824,
+  "Tmpfs": {
+    "/tmp": "rw,nosuid,nodev,size=256m",
+    "/work": "rw,nosuid,nodev,exec,size=768m"
+  },
+  "mounted_paths": [
+    {
+      "type": "bind",
+      "target": "/receipts",
+      "read_only": false
+    }
+  ],
+  "image_id": "sha256:61ddb0d02ae69d6bd1f6631a33c0e2892188707835c0525ea76bffa6bde6e364"
+}

@@ -1,0 +1,26 @@
+
+> invoice-approval-service@1.0.0 test
+> node --test
+
+✔ req 1: users authenticate; bad credentials rejected (244.86718ms)
+✔ req 2 + 3: submitter creates an invoice in submitted state (126.96259ms)
+✔ req 2: a PDF attachment is required (122.636858ms)
+✔ req 2: non-PDF attachment is rejected (135.171344ms)
+✔ req 3: submitters cannot approve invoices (212.912162ms)
+✔ req 4: an approver cannot approve/reject their own invoice (93.537505ms)
+✔ req 5: <= 10,000 EUR is approved after one approval (240.352705ms)
+✔ req 5: > 10,000 EUR needs two distinct approvers (311.469822ms)
+✔ req 5: a single reject rejects the invoice regardless of amount (262.376432ms)
+✔ req 6: every state change is recorded in the append-only audit log (387.961722ms)
+✔ req 7: reading the counterparty email is audited; erasure works (229.377811ms)
+✔ req 8: pending list is filterable and excludes own/decided invoices (434.16128ms)
+✔ req 9: a state change writes an email notification to the stub (295.302002ms)
+✔ terminal invoices cannot be re-decided (413.959646ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3757.068265

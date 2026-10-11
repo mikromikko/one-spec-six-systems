@@ -1,0 +1,16 @@
+
+> invoice-approval-service@1.0.0 start
+> node src/server.js
+
+Invoice approval service listening on http://localhost:3000
+Email notifications are written to /work/experiment/runs/claude/run2/data/outbox.log
+[email] -> submitter@nordvik.example: Invoice #1 submitted
+[email] -> submitter@nordvik.example: Invoice #2 submitted
+[email] -> submitter@nordvik.example: Invoice #2 rejected
+[email] -> submitter@nordvik.example: Invoice #3 submitted
+[email] -> submitter@nordvik.example: Invoice #3 approved
+[email] -> submitter@nordvik.example: Invoice #4 submitted
+[email] -> submitter@nordvik.example: Invoice #4 approved
+[email] -> submitter@nordvik.example: Invoice #5 submitted
+[email] -> submitter@nordvik.example: Invoice #5 approved
+[email] -> submitter@nordvik.example: Invoice #6 submitted

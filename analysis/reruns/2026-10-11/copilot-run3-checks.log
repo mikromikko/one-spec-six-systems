@@ -1,0 +1,11 @@
+  [PASS   ] 1 Sign-in + roles — user creation + 3 logins ok; submitter approve attempt -> 403
+  [PASS   ] 2 Invoice creation — created id=2; fields ok=True; pdf download -> 200 ok=True
+  [PASS   ] 3 Lifecycle — reject->True, approve->True
+  [PASS   ] 4 No self-approval — approver submit attempt -> 403 (roles exclusive at submission)
+  [PASS   ] 5 Two-approver threshold — 12k after 1 approval still submitted=True; after 2nd approved=True; exactly 10k one-approval=True
+  [PASS   ] 6 Append-only audit log — 3 entries, actor+timestamp=True; PUT->404 DELETE->404
+  [PASS   ] 7 PII erasure + access logging — read audited=True; erased=True (post-erase GET -> 200); invoice survives=True
+  [PASS   ] 8 Pending list + filters — name filter ok=True (1 rows); min_amount_euros=999999 -> 0 rows
+  [PASS   ] 9 Notification stub — notifications.log exists=True, addressed to submitter=True
+  [PASS   ] 10 README + tests — Unit tests (startup deviations are in the rerun receipt); unittest rc=0:  | OK
+saved /receipts/results-copilot-run3.md — 10P/0p/0F

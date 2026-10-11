@@ -1,0 +1,9 @@
+
+> invoice-approval-service@1.0.0 seed
+> node src/seed.js
+
+created  submitter  submitter@nordvik.example  (password: submitter-pass)
+created  approver   approver1@nordvik.example  (password: approver-pass)
+created  approver   approver2@nordvik.example  (password: approver-pass)
+
+Seed complete. Database: /work/experiment/runs/claude/run2/data/app.db

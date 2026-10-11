@@ -1,0 +1,13 @@
+test_approver_cannot_approve_or_reject_invoice_they_submitted (test_app.InvoiceServiceTests.test_approver_cannot_approve_or_reject_invoice_they_submitted) ... ok
+test_approver_pending_list_filters_by_counterparty_and_amount (test_app.InvoiceServiceTests.test_approver_pending_list_filters_by_counterparty_and_amount) ... ok
+test_audit_log_is_append_only_at_database_level (test_app.InvoiceServiceTests.test_audit_log_is_append_only_at_database_level) ... ok
+test_contact_email_read_is_audited_and_erasure_removes_value (test_app.InvoiceServiceTests.test_contact_email_read_is_audited_and_erasure_removes_value) ... ok
+test_invoice_at_threshold_is_approved_by_one_approver (test_app.InvoiceServiceTests.test_invoice_at_threshold_is_approved_by_one_approver) ... ok
+test_invoice_over_threshold_requires_two_distinct_approvers (test_app.InvoiceServiceTests.test_invoice_over_threshold_requires_two_distinct_approvers) ... ok
+test_reject_changes_state_and_notifies_submitter (test_app.InvoiceServiceTests.test_reject_changes_state_and_notifies_submitter) ... ok
+test_submitter_creates_invoice_without_exposing_contact_email (test_app.InvoiceServiceTests.test_submitter_creates_invoice_without_exposing_contact_email) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.814s
+
+OK

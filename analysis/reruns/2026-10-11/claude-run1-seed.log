@@ -1,0 +1,9 @@
+
+> invoice-approval-service@1.0.0 seed
+> node src/seed.js
+
+Seeded demo users:
+  submitter  submitter@nordvik.example  (password: password123)
+  submitter  submitter2@nordvik.example  (password: password123)
+  approver   approver1@nordvik.example  (password: password123)
+  approver   approver2@nordvik.example  (password: password123)
