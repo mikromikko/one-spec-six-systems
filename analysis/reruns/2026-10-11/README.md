@@ -1,10 +1,12 @@
 # Existing-output acceptance rerun — 11 October 2026 UTC
 
-The six counted outputs from snapshot `b3394ba8286680a75b6031181430d93edb061d98` were rechecked with recovered author-working-copy adapters. No model was called and no generated source was edited. All 67 published input hashes matched before and after execution. All six adapters completed, and all 72 authored unit tests passed. The successful bounded runtime lasted 52.4 seconds, excluding image preparation and adapter restoration. This is an original-publisher verification, not independent replication or a measurement of reviewer effort.
+The six counted outputs from snapshot `b3394ba8286680a75b6031181430d93edb061d98` were rechecked with recovered author-working-copy adapters. No model was called and no generated source was edited. All 67 published input hashes matched before and after execution. All six adapters completed, and all 71 named test cases passed. The runners report 72 passing items because Claude run1 also counts its helper module. The successful bounded runtime lasted 52.4 seconds, excluding image preparation and adapter restoration. This is an original-publisher verification, not independent replication or a measurement of reviewer effort.
+
+Counting clarification: the first summary described 72 “authored unit tests.” The preserved logs establish 71 named test cases plus one helper-module item. No test execution or raw receipt has changed.
 
 Scores below are pass/partial/fail counts. Fresh raw results are preserved; they have not been manually regraded.
 
-| Output | July published score | October raw automated score | Passing unit tests |
+| Output | July published score | October raw automated score | Passing runner items |
 |---|---|---|---|
 | claude-run1 | 9/1/0 | 9/1/0 | 19 |
 | claude-run2 | 10/0/0 | 10/0/0 | 16 |

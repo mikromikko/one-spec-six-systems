@@ -23,7 +23,7 @@ On 11 July 2026 we gave two coding agents the same frozen one-page specification
 
 ## Rechecking the existing outputs
 
-Use the [bounded container acceptance rerun](analysis/acceptance/README.md). It makes no model calls, preserves the six pinned outputs and July receipts, and records actual runtime changes and outcomes. The later security findings remain in scope regardless of acceptance scores. The [11 October rerun receipt](analysis/reruns/2026-10-11/README.md) records 72 passing unit tests and the raw acceptance scores, including the previously documented manual regrade for Copilot run2.
+Use the [bounded container acceptance rerun](analysis/acceptance/README.md). It makes no model calls, preserves the six pinned outputs and July receipts, and records actual runtime changes and outcomes. The later security findings remain in scope regardless of acceptance scores. The [11 October rerun receipt](analysis/reruns/2026-10-11/README.md) records 71 passing named test cases (72 runner items, including one helper module) and the raw acceptance scores, including the previously documented manual regrade for Copilot run2.
 
 ## Generating new draws
 
