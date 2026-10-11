@@ -19,7 +19,7 @@ On 11 July 2026 we gave two coding agents the same frozen one-page specification
 | `analysis/acceptance/` | Recovered synthetic HTTP adapters, provenance hashes, isolated rerun instructions and offline guard tests |
 | `analysis/reruns/` | Fresh receipts, runtime dependencies and deviations, kept separate from July results |
 | `analysis/` | The comparison matrix, acceptance results per system, and scanner outputs (Semgrep 1.169.0 default rules, gitleaks 8.30.1) |
-| `security-review-2026-07-18.md` | Source-assisted security review of all six runs, dated 18 July 2026. None was safe to deploy as shipped; four let an unauthenticated caller create an approver, five had object-level authorization failures. Basis for [Part 2](https://tai.ga/en/resources/one-spec-six-systems/) |
+| `security-review-2026-07-18.md` | Source-assisted security review of all six runs, dated 18 July 2026. None was safe to deploy as shipped; four let an unauthenticated caller create an approver, five had object-level authorization failures. Basis for [Part 2](https://tai.ga/en/resources/one-spec-six-systems-part-2/) |
 
 ## Rechecking the existing outputs
 
